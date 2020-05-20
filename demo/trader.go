@@ -202,7 +202,12 @@ func (p *FtdcTraderSpi) OnRspQryInstrument(pInstrument goctp.CThostFtdcInstrumen
         mInstrumentInfo.MaxMarginSideAlgorithm = string(pInstrument.GetMaxMarginSideAlgorithm());
         mInstrumentInfo.UnderlyingInstrID      = pInstrument.GetUnderlyingInstrID();
         mInstrumentInfo.StrikePrice            = pInstrument.GetStrikePrice();
-        mInstrumentInfo.OptionsType            = string(pInstrument.GetOptionsType());
+        //yifeimfd mod
+        //这行结果是给这个字段设置为二进制0，实际结构中保存的也是二进制0
+        //实际上6.3.15 API中OptionsType应该是byte类型
+        //mInstrumentInfo.OptionsType            = string(pInstrument.GetOptionsType());
+        mInstrumentInfo.OptionsType = string(rune(pInstrument.GetOptionsType() + 48))
+        //yifeimfd mod end
         mInstrumentInfo.UnderlyingMultiple     = pInstrument.GetUnderlyingMultiple();
         mInstrumentInfo.CombinationType        = string(pInstrument.GetCombinationType());
 
